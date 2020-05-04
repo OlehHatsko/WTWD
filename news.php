@@ -2,7 +2,20 @@
 <?php 
 require "header.php"
 ?>
-
+<script>
+	function check(id){
+		var value = document.getElementById(id).value;
+		if(value == ""){
+			//do something
+		}
+	} 
+	
+	function checking(){
+		check("idOfName");
+		check("idOfSurname");
+		//etc.
+	}
+</script>
 <?php 
 	$mysqli = new mysqli('localhost','root','','cenatbase');
 	$mysqli->query("SET NAMES utf8");
