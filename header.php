@@ -56,7 +56,7 @@
 					<h1 align="center">ПРО НАС</h1>
 				</a>
 			</div>
-			<div id="A" style="background-color: rgb(0,47,124,0.9);color:white;width: 100%;height:0px;overflow: hidden;">
+			<div id="A" style="background-color: rgb(0,47,124,0.9);color:white;width: 100%;height: 0px;overflow: hidden;">
 				<div onclick="window.location.href = 'about.php'" style="border-bottom: 1px solid white;height: 50px;padding: 10px;cursor: pointer;	">
 					<h3 align="center">КОЛЕКТИВ</h3>
 				</div>
@@ -147,6 +147,7 @@
 					menu.style.width = "0%";
 				}
 		}
+		var vertCounter = 0;
 		async function showMenuVert(name)
 		{
 				var menu = document.getElementById(name);
@@ -156,10 +157,10 @@
 					var value = 1.1;
 					while(value<100)
 					{
-						counter += 0.4;
+						vertCounter += 0.4;
 						await sleep(5);
-						value = power3(counter);
-						menu.style.height = Math.round(value) + "px";
+						value = power3(vertCounter);
+						menu.style.height = value + "px";
 					}
 					menu.style.height = "100px";
 				}
@@ -168,9 +169,9 @@
 					var value = 100;
 					while(value>0)
 					{
-						counter -= 0.15;
+						vertCounter -= 0.15;
 						await sleep(3);
-						value = power3(counter);
+						value = power3(vertCounter);
 						if(value>80) continue;
 						menu.style.height = value + "px";
 					}

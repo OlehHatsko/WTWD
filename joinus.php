@@ -56,28 +56,61 @@ require "header.php"
  ?>
 
 <div class="main"    style="	padding:40px;background-color:#F0F0F0;color: black">
-<div class="container">
-	 		<h1 align="center">Реєстрація в CENAT</h1><br><br>
+<h1 align="center">Реєстрація в CENAT</h1><br><br>
 			<form action="" method="post" id="form" onsubmit="valid(document.getElementById('form'))">
-				<?=$error_name?><input class="form-control" type="text" value="<?=$_SESSION["name"]?>" name="name" placeholder="Як Вас звуть? Введіть, будь ласка, ваше ім'я"><br>
-				<?=$error_surname?><input class="form-control" type="text" value="<?=$_SESSION["surname"]?>" name="surname" placeholder="Також нам потрібне ваше прізвище"><br>
-				<?=$error_phone?><input type="tel" name="phone" value="<?=$_SESSION["phone"]?>" class="form-control" placeholder="Введіть свій номер телефону"><br>
+				<?=$error_name?><input id ="name" onblur="checkValue('name')" class="form-control" type="text" value="<?=$_SESSION["name"]?>" name="name" placeholder="Як Вас звуть? Введіть, будь ласка, ваше ім'я"><br>
+				<?=$error_surname?><input id="surname" onblur="checkValue('surname')" class="form-control" type="text" value="<?=$_SESSION["surname"]?>" name="surname" placeholder="Також нам потрібне ваше прізвище"><br>
+				<?=$error_phone?><input id="phone" onblur="checkValue('phone')" type="tel" name="phone" value="<?=$_SESSION["phone"]?>" class="form-control" placeholder="Введіть свій номер телефону"><br>
 				<?=$error_sex?><p>Я: </p>
 					<div class="container"><div class="radio"><label class="radio" for="boy"><input id="boy"  type="radio" value="boy" name="sex">Хлопець</label></div>
-					<label class="radio" for="girl"><input id="girl"  type="radio" value="girl" name="sex">Дівчина</label></div><br>
-				<?=$error_adress?><input type="adress" value="<?=$_SESSION["adress"]?>" name="adress" class="form-control" placeholder="Звідки ви?">
+					<label class="radio " for="girl"><input id="girl"  type="radio" value="girl" name="sex">Дівчина</label></div><br>
+				<?=$error_adress?><input id="adress" type="adress" onblur="checkValue('adress')" value="<?=$_SESSION["adress"]?>" name="adress" class="form-control" placeholder="Звідки ви? Вкажіть місто">
 				<br>
 				<label for="info">Розкажіть щось про себе. Чи був у вас якийсь досвід у хореографії. Якщо так, то який стиль?</label>
 				<textarea id="info" name="info" class="form-control" value="<?=$_SESSION["info"]?>" placeholder="Введіть додаткову інформацію" rows="5"></textarea>
 				<br>
-				<div align="right">
+				<div  align="right">
 				<input  class="btn btn-success" type="submit" name="send" value="Надіслати">
 			</div>
 			</form>
+		<script>
+			function checkValue(valueId)
+			{
+				var element = document.getElementById(valueId);
+				if(element.type == 'text' || element.type == 'adress')
+				{
+					var value = element.value;
+					if(hasNumber(value)||value.length == 0)
+					{
+						element.style.border = '1px solid #FF8888';
+					}
+					else
+					{
+						element.style.border = '1px solid #8DCBFF';
+					}
+				}	
+				if(element.type == "tel")
+				{
+					var value = element.value;
+					if(!isPhoneNumber(value)||value.length == 0)
+					{
+						element.style.border = '1px solid #FF8888';
+					}
+					else
+					{
+						element.style.border = '1px solid #8DCBFF';
+					}
+				}
+			}
+			function isPhoneNumber(value)
+			{
+				return /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/.test(value);
+			}
+			function hasNumber(myString) {
+			  return /\d/.test(myString);
+			}
+		</script>
 	
-</div>
-	
-
 </div>
 
  	<?php 
