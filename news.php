@@ -30,7 +30,7 @@ require "header.php"
 			<div class="main" id="mn" style="background-color:#F0F0F0;padding:40px;margin: 10px;width: 100%;overflow: hidden;">
 				
 				<div style="width: 100%">
-					<div style="display: flex;flex-wrap: wrap;padding: 0;margin:0;align-items: center;">
+					<div id="postOuter" style="display: flex;flex-wrap: wrap;padding: 0;margin:0;align-items: center;">
 						<?php 
 						for (;$row = $res->fetch_assoc();): 
 					?>
@@ -47,7 +47,7 @@ require "header.php"
 					<form action="post.php" id="<?=$dat?>" method="post">
 						<input type="hidden" value="<?=$id?>" name="id">
 					</form>
-					<div onclick="document.getElementById('<?=$dat?>').submit();" class="post" style="cursor:pointer;margin:1%;height:100%;position: relative;padding:  3px;">
+					<div onclick="document.getElementById('<?=$dat?>').submit();" class="post" style="cursor:pointer;margin:1%;height:100%;position: relative;padding:  3px; border-radius: 3px; ">
 						<h2 style="color:#333"><div style="background-color: rgb(0,158,210);;border-radius: 7px;color: white;display: inline;margin-right: 20px;padding:0 5px;"><?php echo date("d.m.Y",$dat) ?></div><?php echo $title ?></h2>
 						<div style="width: 100%;position: relative">
 							<img src="img/posts/<?php echo $picture_name?>"width="100%">
@@ -57,7 +57,6 @@ require "header.php"
 							<?php echo $short_text ?>
 						</div>
 					</div>
-
 					<?php endfor; ?>
 					</div>
 					<?php 
@@ -250,5 +249,33 @@ require "header.php"
 <?php 
 require "footer.php" ?>
 </body>
+<script>
+	document.querySelector("#postOuter").addEventListener("mouseover",func);
+	document.querySelector("#postOuter").addEventListener("mouseout",func);
+var currentEl = null;
+	function func(event){
+
+		if(event.type == 'mouseover' && event.target.className == "post"){
+			if(currentEl) return;
+
+			currentEl = event.target;
+			event.target.style.background = "#E3E3E3";
+		}
+		if(event.type == 'mouseout' && event.target.className == "post"){
+			if(!currentEl) return;
+			let relatedTarget = event.relatedTarget;
+
+		  while (relatedTarget) {
+		    // поднимаемся по дереву элементов и проверяем – внутри ли мы currentElem или нет
+		    // если да, то это переход внутри элемента – игнорируем
+		    if (relatedTarget == currentEl) return;
+
+		    relatedTarget = relatedTarget.parentNode;
+		  }
+			event.target.style.background = "";
+			currentEl = null;
+		}
+	}
+</script>
 </html>
 

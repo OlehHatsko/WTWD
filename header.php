@@ -200,10 +200,23 @@
 						Щоб увійти в систему, авторизуєтесь
 					</div>
 					<div style="width: 35%;display: flex;justify-content: center;align-items: center;height: 100%">
-						<div class="logBtn" onclick="tog()">
+						<div id="logButton" class="logBtn">
 								<img id="image_log" src="img/Tilda_Icons_9ta_group.svg" style="filter: invert(1); width: 30% "  alt="">
 							Увійти
 						</div>
+						<script>
+							document.querySelector("#logButton").addEventListener('click',tog,true);
+							var value ="none";
+							function tog()
+							{
+								if(value == "none")
+								{
+									value = "initial";
+								}
+								else	value = "none";
+								document.getElementById('log_menu').style.display = value;
+							}
+						</script>
 							<style>
 							.gig:hover , .gig:focus
 							{
@@ -298,22 +311,13 @@
 			</div>
 		</div>
 	</div>
-	<script>
-		var value ="none";
-		function tog()
-		{
-			if(value == "none")
-			{
-				value = "initial";
-			}
-			else	value = "none";
-			document.getElementById('log_menu').style.display = value;
-		}
-	</script>
+
 </div>
 <script>	
 	if (document.documentElement.clientWidth <992)
 	{
 document.getElementById('image_log').style.display="none"; 
 	} 
+
+	
 </script>

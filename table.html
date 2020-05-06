@@ -137,5 +137,37 @@
 			</td>
 		</tr>
 	</table>
+	<hr>
+	<style>
+		.bla{
+			height: 100px;
+			width: 100px;
+			margin: 10px;
+			border: 1px solid black
+		}
+	</style>
+	<div id = "delegeted" style="display: flex;">
+		<div class="bla">1</div>
+		<div class="bla">2</div>
+		<div class="bla">3</div>
+		<div class="bla">4</div>
+	</div>
+	<script>	
+		document.querySelector("#delegeted").addEventListener("mouseout",func);
+		document.querySelector("#delegeted").addEventListener("mouseover",func);
+		function func(event){
+			if(event.type == 'mouseover' && event.target.className == "bla"){
+				event.target.style.background = "#E3E3E3";
+			}
+			if(event.type == 'mouseout' && event.target.className == "bla"){
+				event.target.style.background = "white";
+			}
+		}
+		// document.querySelector(".bla").onmouseenter = func;
+		// function func(event) {
+		// 	console.log(event);
+		// 	this.backgroundcolor = "#e3e3e3";
+		// }
+	</script>
 </body>
 </html>
