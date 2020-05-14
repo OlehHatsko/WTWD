@@ -85,22 +85,20 @@
 		</div>
 	</div>
 	<div class="header_min" style="padding-right: 20px;position: fixed;z-index: 2;top: 0;">
-		<div style="width: 7%;height: 100%" onclick="showMenu('sideMenu')">	
+		<div style="width: 7%;height: 100%" onclick="changeWidth('#sideMenu',0,80,'%')">	
 			<img src="img/open-menu.png"  alt="" style="height: 60%;margin: 15px;cursor: pointer;filter: invert(1);display: block;">
 		</div>
-
 		<div style="display: flex;justify-content: center;width: 86%;height: 100%;padding: 15px">	
 			<img class = "top" src="img/logos.png"  alt="" style="filter: drop-shadow(0 0 10px gray) invert(0);height: 100%;">
 		</div>
 
-		<div style="width: 7%;height: 100%;padding-right:40px" onclick="showMenu('logMenu')">	
+		<div style="width: 7%;height: 100%;padding-right:40px" onclick="changeWidth('#logMenu',0,80,'%')">	
 			<img src="img/Tilda_Icons_9ta_group.svg"  alt="" style="height:70%;margin: 10px;cursor: pointer;filter: invert(1);display: block;">
 		</div>
 </div>
 </div>
 
 <script>	
-	var counter = 0;
 		function power3(value)
 		{
      return value*value*value;		
@@ -112,39 +110,84 @@
 			if (login.value==""||password.value =="") document.getElementById('message').style.display = 'flex';
 			else document.getElementById('formlog').submit();
 		}
+		function getCookie(name) {
+		  let matches = document.cookie.match(new RegExp(
+		    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+		  ));
+		  return matches ? decodeURIComponent(matches[1]) : undefined;
+		}
+		async function switchThemeView()
+		{
+			var q ='#theme_switcher #inner';
+			var low = 40;
+			var high = 100;
+			var unit = '%';
+			var togCounter = 1;
+			var menu = document.querySelector(q);
+			var value = low;
+			while(value<high)
+			{
+				togCounter += 0.3;
+				await sleep(10);
+				value = power3(togCounter);
+				menu.style.width = value + unit;
+			}
+			menu.style.width = high+unit;
 
+			var curTheme = getCookie('theme');
+
+			if(curTheme == 'dark'){
+				document.cookie = "theme=bright";
+				togBright();
+			} 
+			else if(curTheme == 'bright'){
+				document.cookie = "theme=dark";
+				togDark();
+			}	
+			strValue = menu.style.width;
+			value = high;
+			while(value>low)
+			{
+				togCounter -= 0.15;
+				await sleep(6);
+				value = power3(togCounter);
+				if(value>high) continue;
+				menu.style.width = value + unit;
+			}
+			menu.style.width = low+unit;
+		}
 		function sleep(ms) {
   		return new Promise(resolve => setTimeout(resolve, ms));
 		}
-
-		async function showMenu(name)
+		var counter = 0;
+		async function changeWidth(q, low, high, unit)
 		{
-				var menu = document.getElementById(name);
+				var menu = document.querySelector(q);
 				var strValue = menu.style.width;
-				if(strValue == "0%")
+				if(strValue == (low+unit))
 				{
 					var value = 1.1;
-					while(value<80)
+					while(value<high)
 					{
 						counter += 0.4;
 						await sleep(5);
 						value = power3(counter);
-						menu.style.width = Math.round(value) + "%";
+						menu.style.width = Math.round(value) + unit;
 					}
-					menu.style.width = "80%";
+					menu.style.width = high+unit;
 				}
 				else
 				{
-					var value = 80;
-					while(value>0)
+					var value = high;
+					while(value>low)
 					{
 						counter -= 0.15;
 						await sleep(3);
 						value = power3(counter);
-						if(value>80) continue;
-						menu.style.width = value + "%";
+						if(value>high) continue;
+						menu.style.width = value + unit;
 					}
-					menu.style.width = "0%";
+					menu.style.width = low+unit;
 				}
 		}
 		var vertCounter = 0;
@@ -182,8 +225,8 @@
 <div class="header_max">
 	<div class="container-fluid" style="; height: 125px;margin-bottom: 0;margin: 0;">
 		<div style="width: 100%;margin:0;padding:0; display: flex;">
-			<div style="width: 25%;color:#cccccc;font-size: 0.6em;padding: 10px;position: relative;">
-				<div style="">
+			<div style="width: 25%;font-size: 0.6em;padding: 10px;position: relative;">
+				<div>
 					Адреса:<br/> с. Муроване, Мурованська ЗОШ<div class="br"></div>
 				Номер:
 				<br> 068 169 99 26 - Тарас
@@ -191,12 +234,34 @@
 				<div style="position: absolute;right: 0; top:10px;">
 				</div>
 			</div>
+			<style>
+				#theme_switcher{
+					border: 1px solid white;
+					overflow: hidden;
+					border-radius: 9px;
+					width: 2em;
+					height: 1em;
+					display: flex;
+					cursor: pointer;
+					justify-content: flex-start;
+					/*background-color: #C8E2FF;*/
+					background-color: #473592;
+					align-items: center;
+				}
+				#theme_switcher #inner{
+					border: 0;
+					border-radius: 8px;
+					background-color: #8395FF;
+					height: 90%;
+					width: 40%;
+				}
+			</style>
 			<div style="width: 50%;display: flex;justify-content: center;height:60px; position: relative;justify-content: space-between;">
 				<img class = "top" src="img/logos.png" width="50%" height="100%" alt="" style="position: absolute;left: 25%;top:40%; filter: drop-shadow(0 0 10px gray) invert(0);z-index: 1">
 			</div>
 			<div style="width: 25%">
 				<div style="width: 100%; padding: 0;margin:0; display: flex;height: 100%">
-					<div style="width: 65%;color:grey; height: 100%;display: flex;align-items: center;font-size: 0.75em">
+					<div style="width: 65%; height: 100%;display: flex;align-items: center;font-size: 0.75em">
 						Щоб увійти в систему, авторизуєтесь
 					</div>
 					<div style="width: 35%;display: flex;justify-content: center;align-items: center;height: 100%">
@@ -227,6 +292,11 @@
 						</style>
 					</div>
 				</div>
+			</div>
+		</div>
+		<div id="theme_switcher">
+			<div id="inner">
+				
 			</div>
 		</div>
 	</div>
@@ -314,10 +384,44 @@
 
 </div>
 <script>	
+	document.querySelector("#theme_switcher").addEventListener('click',()=>switchThemeView());
 	if (document.documentElement.clientWidth <992)
 	{
 document.getElementById('image_log').style.display="none"; 
 	} 
-
+	if(!getCookie('theme')){
+		document.cookie = "theme=bright";
+	}
+	var curTheme = getCookie('theme');
+	console.log("Current theme is: "+curTheme);
 	
+	var element = document.getElementById('theme_switcher').style;
+	var header = document.getElementsByClassName('header_max')[0].style;
+	var logButton = document.querySelector('#logButton').style;
+
+	if(curTheme == 'bright'){
+		togBright();
+	} 
+	else if(curTheme == 'dark'){
+		togDark();
+	}	
+	function togBright(){
+		element.background='#C8E2FF';
+		element.justifyContent='flex-end';
+		header.backgroundColor = '#A2A6FF';
+		header.color = '#3D3D3D';
+		logButton.borderColor='#AFDEFF';
+		logButton.backgroundColor='#C7CFFF'
+		logButton.color = '#e5f2ff';
+	}
+	function togDark(){
+		header.color = '#ccc';
+		element.background='#473592';
+		element.justifyContent='flex-start';
+		header.backgroundColor = 'rgb(8,23,32)';
+		header.color = '#ccc';
+		logButton.borderColor='#030358';
+		logButton.backgroundColor='#2C128F'
+		logButton.color = '#ccc';
+	}
 </script>
